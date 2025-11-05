@@ -10,6 +10,7 @@ type Project = {
   tech: string[];
   github: string;
   image: string;
+  visibility: "Public" | "Private";
 };
 
 const placeholderProjects: Project[] = [
@@ -31,34 +32,60 @@ const placeholderProjects: Project[] = [
     ],
     github: "https://github.com/RaiyanMH/Autoplayr",
     image: "/projects/Autoplayr.png",
+    visibility: "Public",
   },
   {
-    title: "Not Updated yet",
-    description: "Not Updated yet",
-    tech: ["Not Updated yet"],
+    title: "RemindMail",
+    description: "Not added yet",
+    tech: ["Not added yet"],
     github: "#",
     image: "/window.svg",
+    visibility: "Public",
   },
   {
-    title: "Not Updated yet",
-    description: "Not Updated yet",
-    tech: ["Not Updated yet"],
+    title: "HalalScanner",
+    description: "Not added yet",
+    tech: ["Not added yet"],
     github: "#",
     image: "/globe.svg",
+    visibility: "Private",
   },
   {
-    title: "Not Updated yet",
-    description: "Not Updated yet",
-    tech: ["Not Updated yet"],
+    title: "ScanToBook",
+    description: "Not added yet",
+    tech: ["Not added yet"],
     github: "#",
     image: "/next.svg",
+    visibility: "Public",
   },
   {
-    title: "Not Updated yet",
-    description: "Not Updated yet",
-    tech: ["Not Updated yet"],
+    title: "SkinCancerAlgorithms",
+    description:
+      "Machine learning project for classifying skin lesion images using various classification algorithms. Implements a complete ML pipeline from data preprocessing to model training and evaluation.",
+    tech: [
+      "Python",
+      "scikit-learn",
+      "numpy",
+      "pandas",
+      "matplotlib",
+      "Pillow",
+      "joblib",
+      "KNN",
+      "Logistic Regression",
+      "SVM",
+      "Decision Tree",
+    ],
+    github: "https://github.com/RaiyanMH/SkinCancerAlgorithms",
+    image: "/projects/SkinCancerClassifier.png",
+    visibility: "Private",
+  },
+  {
+    title: "MobiletechApp",
+    description: "Not added yet",
+    tech: ["Not added yet"],
     github: "#",
     image: "/vercel.svg",
+    visibility: "Private",
   },
 ];
 
@@ -181,8 +208,17 @@ export default function Home() {
                 onClick={() => setSelected(p)}
                 className="card text-left p-5 hover:-translate-y-0.5 transition-transform"
               >
-                <div className="aspect-video w-full rounded-xl bg-white/5 overflow-hidden">
+                <div className="aspect-video w-full rounded-xl bg-white/5 overflow-hidden relative">
                   <img src={p.image} alt={p.title} className="w-full h-full object-cover object-left-top" />
+                  <span
+                    className={`absolute top-2 right-2 px-2 py-1 rounded-full text-xs font-medium ${
+                      p.visibility === "Public"
+                        ? "bg-green-500/20 text-green-400 border border-green-500/30"
+                        : "bg-orange-500/20 text-orange-400 border border-orange-500/30"
+                    }`}
+                  >
+                    {p.visibility}
+                  </span>
                 </div>
                 <h3 className="mt-4 text-lg font-semibold">{p.title}</h3>
                 <p className="text-white/70 text-sm mt-1">{p.description}</p>
@@ -225,7 +261,18 @@ export default function Home() {
           <div className="card w-full max-w-2xl p-6" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-start justify-between gap-4">
               <div>
-                <h3 className="text-2xl font-bold">{selected.title}</h3>
+                <div className="flex items-center gap-3 mb-1">
+                  <h3 className="text-2xl font-bold">{selected.title}</h3>
+                  <span
+                    className={`px-2 py-1 rounded-full text-xs font-medium ${
+                      selected.visibility === "Public"
+                        ? "bg-green-500/20 text-green-400 border border-green-500/30"
+                        : "bg-orange-500/20 text-orange-400 border border-orange-500/30"
+                    }`}
+                  >
+                    {selected.visibility}
+                  </span>
+                </div>
                 <p className="text-white/75 mt-1">{selected.description}</p>
               </div>
               <button onClick={() => setSelected(null)} className="btn-secondary">Close</button>
