@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
-import dynamic from "next/dynamic";
+import EffectsRoot from "@/components/EffectsRootClient";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -42,7 +42,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const EffectsRoot = dynamic(() => import("@/components/EffectsRoot"), { ssr: false });
   return (
     <html lang="en">
       <body

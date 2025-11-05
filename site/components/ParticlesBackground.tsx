@@ -17,6 +17,9 @@ export default function ParticlesBackground({ className, color = "#8b5cf6", link
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
+    // Store reference so TypeScript knows it's not null
+    const canvasElement: HTMLCanvasElement = canvas;
+
     let animationFrame = 0;
     let disposed = false;
 
@@ -26,17 +29,19 @@ export default function ParticlesBackground({ className, color = "#8b5cf6", link
     const linkDistance = 120;
 
     function resize() {
-      const { clientWidth, clientHeight } = canvas.parentElement || canvas;
-      canvas.width = Math.floor(clientWidth * DPR);
-      canvas.height = Math.floor(clientHeight * DPR);
-      canvas.style.width = `${clientWidth}px`;
-      canvas.style.height = `${clientHeight}px`;
+      const parent = canvasElement.parentElement || canvasElement;
+      const clientWidth = parent.clientWidth || window.innerWidth;
+      const clientHeight = parent.clientHeight || window.innerHeight;
+      canvasElement.width = Math.floor(clientWidth * DPR);
+      canvasElement.height = Math.floor(clientHeight * DPR);
+      canvasElement.style.width = `${clientWidth}px`;
+      canvasElement.style.height = `${clientHeight}px`;
     }
 
     function init() {
       particles.length = 0;
-      const width = canvas.width;
-      const height = canvas.height;
+      const width = canvasElement.width;
+      const height = canvasElement.height;
       for (let i = 0; i < maxParticles; i++) {
         particles.push({
           x: Math.random() * width,
@@ -50,7 +55,7 @@ export default function ParticlesBackground({ className, color = "#8b5cf6", link
 
     function step() {
       if (!ctx) return;
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.clearRect(0, 0, canvasElement.width, canvasElement.height);
 
       // draw links first (thin, subtle)
       ctx.lineWidth = 0.8 * DPR;
@@ -79,10 +84,10 @@ export default function ParticlesBackground({ className, color = "#8b5cf6", link
         p.x += p.vx;
         p.y += p.vy;
         // wrap around
-        if (p.x < 0) p.x = canvas.width;
-        if (p.x > canvas.width) p.x = 0;
-        if (p.y < 0) p.y = canvas.height;
-        if (p.y > canvas.height) p.y = 0;
+        if (p.x < 0) p.x = canvasElement.width;
+        if (p.x > canvasElement.width) p.x = 0;
+        if (p.y < 0) p.y = canvasElement.height;
+        if (p.y > canvasElement.height) p.y = 0;
 
         const grd = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, 6 * p.r);
         grd.addColorStop(0, hexToRgba(color, 0.9));
@@ -106,7 +111,7 @@ export default function ParticlesBackground({ className, color = "#8b5cf6", link
     step();
 
     const ro = new ResizeObserver(onResize);
-    ro.observe(canvas.parentElement || canvas);
+    ro.observe(canvasElement.parentElement || canvasElement);
 
     return () => {
       disposed = true;
