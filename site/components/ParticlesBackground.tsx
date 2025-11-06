@@ -25,8 +25,8 @@ export default function ParticlesBackground({ className, color = "#8b5cf6", link
 
     const DPR = Math.min(window.devicePixelRatio || 1, 2);
     const particles: { x: number; y: number; vx: number; vy: number; r: number }[] = [];
-    const maxParticles = 120; // keep light
-    const linkDistance = 120;
+    const maxParticles = 80;
+    const linkDistance = 150;
 
     function resize() {
       const parent = canvasElement.parentElement || canvasElement;
@@ -46,9 +46,9 @@ export default function ParticlesBackground({ className, color = "#8b5cf6", link
         particles.push({
           x: Math.random() * width,
           y: Math.random() * height,
-          vx: (Math.random() - 0.5) * 0.3 * DPR,
-          vy: (Math.random() - 0.5) * 0.3 * DPR,
-          r: (Math.random() * 1.5 + 0.5) * DPR,
+          vx: (Math.random() - 0.5) * 0.5 * DPR,
+          vy: (Math.random() - 0.5) * 0.5 * DPR,
+          r: (Math.random() * 1 + 0.5) * DPR,
         });
       }
     }
@@ -57,9 +57,8 @@ export default function ParticlesBackground({ className, color = "#8b5cf6", link
       if (!ctx) return;
       ctx.clearRect(0, 0, canvasElement.width, canvasElement.height);
 
-      // draw links first (thin, subtle)
-      ctx.lineWidth = 0.8 * DPR;
-      ctx.strokeStyle = hexToRgba(linkColor, 0.12);
+      // draw links first (clean, subtle)
+      ctx.lineWidth = 0.5 * DPR;
       for (let i = 0; i < particles.length; i++) {
         for (let j = i + 1; j < particles.length; j++) {
           const a = particles[i];
@@ -68,8 +67,9 @@ export default function ParticlesBackground({ className, color = "#8b5cf6", link
           const dy = a.y - b.y;
           const dist = Math.hypot(dx, dy);
           if (dist < linkDistance * DPR) {
-            const alpha = 1 - dist / (linkDistance * DPR);
-            ctx.globalAlpha = Math.max(0, Math.min(0.35, alpha));
+            const opacity = 1 - dist / (linkDistance * DPR);
+            ctx.globalAlpha = Math.max(0, Math.min(0.2, opacity));
+            ctx.strokeStyle = hexToRgba(linkColor, 1);
             ctx.beginPath();
             ctx.moveTo(a.x, a.y);
             ctx.lineTo(b.x, b.y);
@@ -79,7 +79,7 @@ export default function ParticlesBackground({ className, color = "#8b5cf6", link
       }
       ctx.globalAlpha = 1;
 
-      // draw particles (soft glow)
+      // draw particles (clean dots)
       for (const p of particles) {
         p.x += p.vx;
         p.y += p.vy;
@@ -89,12 +89,10 @@ export default function ParticlesBackground({ className, color = "#8b5cf6", link
         if (p.y < 0) p.y = canvasElement.height;
         if (p.y > canvasElement.height) p.y = 0;
 
-        const grd = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, 6 * p.r);
-        grd.addColorStop(0, hexToRgba(color, 0.9));
-        grd.addColorStop(1, hexToRgba(color, 0));
-        ctx.fillStyle = grd;
+        // Draw particle as a simple filled circle
+        ctx.fillStyle = hexToRgba(color, 0.6);
         ctx.beginPath();
-        ctx.arc(p.x, p.y, 3 * p.r, 0, Math.PI * 2);
+        ctx.arc(p.x, p.y, 2 * p.r, 0, Math.PI * 2);
         ctx.fill();
       }
 

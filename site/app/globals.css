@@ -72,3 +72,19 @@ html {
   background-repeat: no-repeat;
 }
 
+/* Scrolling notification animation */
+@keyframes scroll {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.animate-scroll {
+  animation: scroll 25s linear infinite;
+  display: inline-block;
+  white-space: nowrap;
+}
+
