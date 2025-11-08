@@ -12,6 +12,8 @@ type Project = {
   github: string;
   image: string;
   visibility: "Public" | "Private";
+  screenshots?: string[];
+  isPrivateProject?: boolean;
 };
 
 const placeholderProjects: Project[] = [
@@ -45,18 +47,47 @@ const placeholderProjects: Project[] = [
   },
   {
     title: "HalalScanner",
-    description: "Not added yet",
-    tech: ["Not added yet"],
+    description:
+      "A cross-platform mobile application that helps users determine if products are halal by scanning barcodes. The app uses OpenAI API to analyze product information and provide halal certification status, making it easier for users to make informed purchasing decisions.",
+    tech: [
+      "Flutter",
+      "Dart",
+      "Provider",
+      "Bloc",
+      "Firebase",
+      "OpenAI API",
+      "ML Kit Barcode Scanning",
+      "SQLite",
+      "Cross-platform",
+    ],
     github: "#",
-    image: "/globe.svg",
+    image: "/projects/HalalScanner1.png",
     visibility: "Private",
+    screenshots: [
+      "/projects/HalalScanner1.png",
+      "/projects/HalalScanner2.png",
+      "/projects/HalalScanner3.png",
+      "/projects/HalalScanner4.png",
+      "/projects/HalalScanner5.png",
+    ],
+    isPrivateProject: true,
   },
   {
     title: "ScanToBook",
-    description: "Not added yet",
-    tech: ["Not added yet"],
-    github: "#",
-    image: "/next.svg",
+    description:
+      "A professional Flutter application for scanning book pages and creating digital book collections. ScanToBook combines the functionality of a document scanner with a manga-style reader, allowing users to capture, organize, and read their scanned pages with a beautiful, modern interface.",
+    tech: [
+      "Flutter",
+      "Dart",
+      "Provider",
+      "image_picker",
+      "photo_view",
+      "PDF Export",
+      "reorderable_grid_view",
+      "uuid",
+    ],
+    github: "https://github.com/RaiyanMH/ScanToBook",
+    image: "/projects/ScanToBook.png",
     visibility: "Public",
   },
   {
@@ -81,12 +112,23 @@ const placeholderProjects: Project[] = [
     visibility: "Private",
   },
   {
-    title: "MobiletechApp",
-    description: "Not added yet",
-    tech: ["Not added yet"],
+    title: "MobileTechApp",
+    description:
+      "A native Android application for the University of Canberra Bruce Campus that provides interactive campus map with Google Maps integration, location tracking and custom markers, event/activity management, Street View integration, and Material Design UI. The app includes Google Maps integration with custom markers, location services with permission handling, Street View panorama support, event/activity creation and management, Material Design components, and ViewBinding for efficient view access. Note: The map may not display the campus location correctly in screenshots or when running the app. This is likely due to Google Maps API key expiration or configuration issues. The app's core functionality and map integration are fully implemented, but a valid API key with proper billing/quotas configured is required for the map to render correctly with campus-specific data.",
+    tech: [
+      "Java",
+      "Android SDK",
+      "Google Maps API",
+      "Google Places API",
+      "Material Design",
+      "ViewBinding",
+      "Fused Location Provider",
+    ],
     github: "#",
-    image: "/vercel.svg",
+    image: "/projects/MT1.png",
     visibility: "Private",
+    screenshots: ["/projects/MT1.png", "/projects/MT2.png", "/projects/MT3.png"],
+    isPrivateProject: true,
   },
 ];
 
@@ -239,7 +281,7 @@ export default function Home() {
       {/* Modal */}
       {selected && (
         <div className="fixed inset-0 z-[60] grid place-items-center bg-black/60 p-4" onClick={() => setSelected(null)}>
-          <div className="card w-full max-w-2xl p-6" onClick={(e) => e.stopPropagation()}>
+          <div className="card w-full max-w-2xl p-6 max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-start justify-between gap-4">
               <div>
                 <div className="flex items-center gap-3 mb-1">
@@ -254,13 +296,30 @@ export default function Home() {
                     {selected.visibility}
                   </span>
                 </div>
+                {selected.isPrivateProject && (
+                  <p className="text-white/60 text-sm mt-2 italic">
+                    {selected.title === "MobileTechApp"
+                      ? "This was a personal private project during my time in university, which is why it is private."
+                      : "This was a private freelance project, which is why there is no public repository."}
+                  </p>
+                )}
                 <p className="text-white/75 mt-1">{selected.description}</p>
               </div>
               <button onClick={() => setSelected(null)} className="btn-secondary">Close</button>
             </div>
-            <div className="aspect-video w-full rounded-xl bg-white/5 overflow-hidden mt-4">
-              <img src={selected.image} alt={selected.title} className="w-full h-full object-cover object-left-top" />
-            </div>
+            {selected.isPrivateProject && selected.screenshots ? (
+              <div className="mt-4 space-y-4">
+                {selected.screenshots.map((screenshot, idx) => (
+                  <div key={idx} className="w-full rounded-xl bg-white/5 overflow-hidden">
+                    <img src={screenshot} alt={`${selected.title} screenshot ${idx + 1}`} className="w-full h-auto object-contain" />
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="aspect-video w-full rounded-xl bg-white/5 overflow-hidden mt-4">
+                <img src={selected.image} alt={selected.title} className="w-full h-full object-cover object-left-top" />
+              </div>
+            )}
             <div className="mt-5">
               <h4 className="font-semibold">Tech Stack</h4>
               <div className="mt-2 flex flex-wrap gap-2">
@@ -268,9 +327,11 @@ export default function Home() {
                   <span key={t} className="px-3 py-1 rounded-full bg-white/10 text-white/80 text-sm">{t}</span>
                 ))}
               </div>
-              <div className="mt-5">
-                <Link href={selected.github} target="_blank" className="btn-primary hover-light">View on GitHub</Link>
-              </div>
+              {!selected.isPrivateProject && selected.github !== "#" && (
+                <div className="mt-5">
+                  <Link href={selected.github} target="_blank" className="btn-primary hover-light">View on GitHub</Link>
+                </div>
+              )}
             </div>
           </div>
         </div>
