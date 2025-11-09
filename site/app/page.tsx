@@ -39,10 +39,18 @@ const placeholderProjects: Project[] = [
   },
   {
     title: "RemindMail",
-    description: "Not added yet",
-    tech: ["Not added yet"],
-    github: "#",
-    image: "/window.svg",
+    description:
+      "A simple yet powerful desktop reminder app that emails you exactly when you need it. Create reminders with scheduled email notifications, configure SMTP settings, and manage multiple reminders with automatic cleanup.",
+    tech: [
+      "Electron",
+      "React",
+      "Node.js",
+      "Tailwind CSS",
+      "NodeMailer",
+      "JSON Storage",
+    ],
+    github: "https://github.com/RaiyanMH/RemindMail",
+    image: "/projects/RemindMail.png",
     visibility: "Public",
   },
   {
