@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import Image from "next/image";
 import { useState, useRef } from "react";
 import ParticlesBackground from "@/components/ParticlesBackground";
 
@@ -217,7 +216,7 @@ export default function Home() {
                 className="card text-left p-5 hover:-translate-y-0.5 transition-transform hover-light"
               >
                 <div className="aspect-video w-full rounded-xl bg-white/5 overflow-hidden relative">
-                  <Image src={p.image} alt={p.title} fill className="object-cover object-left-top" unoptimized />
+                  <img src={p.image} alt={p.title} className="w-full h-full object-cover object-left-top" />
                   <span
                     className={`absolute top-2 right-2 px-2 py-1 rounded-full text-xs font-medium ${
                       p.visibility === "Public"
@@ -321,8 +320,8 @@ export default function Home() {
                 ))}
               </div>
             ) : (
-              <div className="aspect-video w-full rounded-xl bg-white/5 overflow-hidden mt-4 relative">
-                <Image src={selected.image} alt={selected.title} fill className="object-cover object-left-top" unoptimized />
+              <div className="aspect-video w-full rounded-xl bg-white/5 overflow-hidden mt-4">
+                <img src={selected.image} alt={selected.title} className="w-full h-full object-cover object-left-top" />
               </div>
             )}
             <div className="mt-5">
