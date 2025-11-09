@@ -75,7 +75,7 @@ const placeholderProjects: Project[] = [
   {
     title: "ScanToBook",
     description:
-      "A professional Flutter application for scanning book pages and creating digital book collections. ScanToBook combines the functionality of a document scanner with a manga-style reader, allowing users to capture, organize, and read their scanned pages with a beautiful, modern interface.",
+      "A simple app that lets users scan or upload images to create personalised books, saved locally for offline access.",
     tech: [
       "Flutter",
       "Dart",
@@ -228,7 +228,7 @@ export default function Home() {
                   </span>
                 </div>
                 <h3 className="mt-4 text-lg font-semibold">{p.title}</h3>
-                <p className="text-white/70 text-sm mt-1">{p.description}</p>
+                <p className="text-white/70 text-sm mt-1 line-clamp-2">{p.description}</p>
               </button>
             ))}
           </div>
